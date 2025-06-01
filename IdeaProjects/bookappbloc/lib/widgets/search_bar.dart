@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
@@ -43,15 +42,15 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
           hintText: 'Rechercher un livre...',
-          prefixIcon: Icon(Icons.search),
+          prefixIcon: const Icon(Icons.search),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
-            icon: Icon(Icons.clear),
+            icon: const Icon(Icons.clear),
             onPressed: () {
               _searchController.clear();
               widget.onClear?.call();
@@ -61,7 +60,7 @@ class _SearchBarState extends State<SearchBar> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
         ),
         onChanged: _onSearchChanged,
       ),

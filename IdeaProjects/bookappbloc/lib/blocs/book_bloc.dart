@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
-import '../../data/models/book.dart';
 import '../../data/repositories/book_repository.dart';
 import 'book_event.dart';
 import 'book_state.dart';

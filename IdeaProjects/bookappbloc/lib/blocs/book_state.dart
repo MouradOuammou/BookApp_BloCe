@@ -1,3 +1,5 @@
+import '../../data/models/book.dart';
+
 abstract class BookState {}
 
 class BookInitial extends BookState {}

@@ -1,24 +1,49 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
+
+import '../data/repositories/book_repository.dart';
+import '../data/repositories/favorite_repository.dart';
+import '../data/services/api_service.dart';
+import '../data/services/db_service.dart';
+import 'book_bloc.dart';
+import 'favorite_bloc.dart';
+
 class BlocProviders extends StatelessWidget {
   final Widget child;
 
-  BlocProviders({required this.child});
+  const BlocProviders({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) => BookBloc(
-            BookRepository(httpClient: http.Client()),
-          ),
+        RepositoryProvider(
+          create: (context) => ApiService(httpClient: http.Client()),
         ),
-        BlocProvider(
-          create: (context) => FavoriteBloc(
-            FavoriteRepository(dbService: DbService()),
-          )..add(LoadFavorites()),
+        RepositoryProvider(
+          create: (context) => DbService(),
         ),
       ],
-      child: child,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => BookBloc(
+              BookRepository(
+                apiService: RepositoryProvider.of<ApiService>(context),
+              ),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => FavoriteBloc(
+              FavoriteRepository(
+                dbService: RepositoryProvider.of<DbService>(context),
+              ),
+            )..add(LoadFavorites()),
+          ),
+        ],
+        child: child,
+      ),
     );
   }
 }

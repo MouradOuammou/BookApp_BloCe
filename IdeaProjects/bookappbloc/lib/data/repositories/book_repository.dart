@@ -1,19 +1,16 @@
-class BookRepository {
-  final http.Client httpClient;
+import '../models/book.dart';
+import '../services/api_service.dart';
 
-  BookRepository({required this.httpClient});
+class BookRepository {
+  final ApiService apiService;
+
+  BookRepository({required this.apiService});
 
   Future<List<Book>> searchBooks(String query) async {
-    final response = await httpClient.get(
-      Uri.parse('https://www.googleapis.com/books/v1/volumes?q=$query'),
-    );
+    return await apiService.searchBooks(query);
+  }
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final items = data['items'] as List;
-      return items.map((item) => Book.fromJson(item)).toList();
-    } else {
-      throw Exception('Failed to load books');
-    }
+  Future<Book> getBookDetails(String bookId) async {
+    return await apiService.getBookDetails(bookId);
   }
 }

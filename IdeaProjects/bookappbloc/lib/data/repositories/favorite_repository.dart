@@ -1,3 +1,6 @@
+import '../models/book.dart';
+import '../services/db_service.dart';
+
 class FavoriteRepository {
   final DbService dbService;
 

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 import '../data/repositories/book_repository.dart';
 import '../data/repositories/favorite_repository.dart';
+import '../data/services/api_service.dart';
+import '../data/services/db_service.dart';
 import 'book_bloc.dart';
 import 'favorite_bloc.dart';
+import 'favorite_event.dart';
 
 class BlocProviders extends StatelessWidget {
   final Widget child;
@@ -36,7 +40,7 @@ class BlocProviders extends StatelessWidget {
               FavoriteRepository(
                 dbService: RepositoryProvider.of<DbService>(context),
               ),
-            )..add(LoadFavorites()),
+            )..add( LoadFavorites()),
           ),
         ],
         child: child,

@@ -1,3 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/book_bloc.dart';
+import '../blocs/book_state.dart';
+import '../blocs/favorite_bloc.dart';
+import '../blocs/favorite_event.dart';
+import '../blocs/favorite_state.dart';
+import '../data/models/book.dart';
+import '../data/repositories/favorite_repository.dart';
+
 class BookDetailPage extends StatelessWidget {
   final String bookId;
 
@@ -38,12 +49,12 @@ class BookDetailPage extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             book.title,
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: 10),
           Text(
             'Auteur: ${book.author}',
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 20),
           BlocBuilder<FavoriteBloc, FavoriteState>(

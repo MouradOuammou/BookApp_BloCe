@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/favorite_event.dart';
 import '../data/models/book.dart';
+
 class FavoriteButton extends StatelessWidget {
   final Book book;
   final bool isFavorite;
@@ -24,14 +22,7 @@ class FavoriteButton extends StatelessWidget {
         color: isFavorite ? Colors.red : Colors.grey,
       ),
       onPressed: () {
-        if (onStateChanged != null) {
-          onStateChanged!(!isFavorite);
-        } else {
-          // Gestion par défaut avec le BLoC
-          context.read<FavoriteBloc>().add(
-            ToggleFavorite(book, isFavorite),
-          );
-        }
+        onStateChanged?.call(!isFavorite);
       },
     );
   }

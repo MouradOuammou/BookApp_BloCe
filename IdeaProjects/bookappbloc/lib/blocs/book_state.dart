@@ -1,25 +1,25 @@
-import '../../data/models/book.dart';
+  import '../../data/models/book.dart';
 
-abstract class BookState {}
+  abstract class BookState {}
 
-class BookInitial extends BookState {}
+  class BookInitial extends BookState {}
 
-class BookLoading extends BookState {}
+  class BookLoading extends BookState {}
 
-class BookLoaded extends BookState {
-  final List<Book> books;
+  class BookLoaded extends BookState {
+    final List<Book> books;
 
-  BookLoaded(this.books);
-}
+    BookLoaded(this.books);
+  }
 
-class BookDetailLoaded extends BookState {
-  final Book book;
+  class BookDetailLoaded extends BookState {
+    final Book book;
 
-  BookDetailLoaded(this.book);
-}
+    BookDetailLoaded(this.book);
+  }
 
-class BookError extends BookState {
-  final String message;
+  class BookError extends BookState {
+    final String message;
 
-  BookError(this.message);
-}
+    BookError(this.message);
+  }

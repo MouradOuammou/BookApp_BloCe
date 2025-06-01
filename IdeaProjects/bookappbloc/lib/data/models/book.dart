@@ -3,12 +3,14 @@ class Book {
   final String title;
   final String author;
   final String imageUrl;
+  final String? description; // ✅ Ajout optionnel
 
   Book({
     required this.id,
     required this.title,
     required this.author,
     required this.imageUrl,
+    this.description, // ✅ Paramètre optionnel
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class Book {
       title: json['volumeInfo']['title'] ?? 'Titre inconnu',
       author: json['volumeInfo']['authors']?.join(', ') ?? 'Auteur inconnu',
       imageUrl: json['volumeInfo']['imageLinks']?['thumbnail'] ?? '',
+      description: json['volumeInfo']['description'],
     );
   }
 
@@ -26,6 +29,7 @@ class Book {
       'title': title,
       'author': author,
       'imageUrl': imageUrl,
+      'description': description,
     };
   }
 
@@ -35,6 +39,7 @@ class Book {
       title: map['title'],
       author: map['author'],
       imageUrl: map['imageUrl'],
+      description: map['description'],
     );
   }
 }

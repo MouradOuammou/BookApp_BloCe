@@ -13,18 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Book App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return BlocProviders(
+      child: MaterialApp(
+        title: 'Book App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: const HomePage(),
+        routes: {
+          '/favorites': (context) => const FavoritesPage(),
+        },
       ),
-      home: BlocProviders(
-        child: const HomePage(),
-      ),
-      routes: {
-        '/favorites': (context) => const FavoritesPage(),
-      },
     );
   }
 }

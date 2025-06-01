@@ -19,28 +19,36 @@ class BlocProviders extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        // Services
         RepositoryProvider(
           create: (context) => ApiService(httpClient: http.Client()),
         ),
         RepositoryProvider(
           create: (context) => DbService(),
         ),
+        // ✅ AJOUT: Repositories en tant que providers
+        RepositoryProvider(
+          create: (context) => BookRepository(
+            apiService: RepositoryProvider.of<ApiService>(context),
+          ),
+        ),
+        RepositoryProvider(
+          create: (context) => FavoriteRepository(
+            dbService: RepositoryProvider.of<DbService>(context),
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => BookBloc(
-              BookRepository(
-                apiService: RepositoryProvider.of<ApiService>(context),
-              ),
+              RepositoryProvider.of<BookRepository>(context),
             ),
           ),
           BlocProvider(
             create: (context) => FavoriteBloc(
-              FavoriteRepository(
-                dbService: RepositoryProvider.of<DbService>(context),
-              ),
-            )..add( LoadFavorites()),
+              RepositoryProvider.of<FavoriteRepository>(context),
+            )..add(LoadFavorites()),
           ),
         ],
         child: child,

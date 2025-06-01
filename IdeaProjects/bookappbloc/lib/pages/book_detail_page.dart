@@ -7,7 +7,6 @@ import '../blocs/favorite_bloc.dart';
 import '../blocs/favorite_event.dart';
 import '../blocs/favorite_state.dart';
 import '../data/models/book.dart';
-import '../data/repositories/favorite_repository.dart';
 
 class BookDetailPage extends StatelessWidget {
   final String bookId;
@@ -44,6 +43,31 @@ class BookDetailPage extends StatelessWidget {
                 book.imageUrl,
                 height: 300,
                 fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 300,
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.book,
+                      size: 100,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    height: 300,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           const SizedBox(height: 20),
@@ -58,23 +82,46 @@ class BookDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           BlocBuilder<FavoriteBloc, FavoriteState>(
-            builder: (context, state) {
-              return FutureBuilder<bool>(
-                future: context.read<FavoriteRepository>().isFavorite(book.id),
-                builder: (context, snapshot) {
-                  final isFavorite = snapshot.data ?? false;
-                  return ElevatedButton.icon(
-                    icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-                    label: Text(isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'),
-                    onPressed: () {
-                      context.read<FavoriteBloc>().add(
-                        ToggleFavorite(book, isFavorite),
-                      );
-                    },
+            builder: (context, favoriteState) {
+              bool isFavorite = false;
+              if (favoriteState is FavoriteLoaded) {
+                isFavorite = favoriteState.books.any((fav) => fav.id == book.id);
+              } else if (favoriteState is FavoriteUpdated) {
+                isFavorite = favoriteState.books.any((fav) => fav.id == book.id);
+              }
+
+              return ElevatedButton.icon(
+                icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+                label: Text(isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'),
+                onPressed: () {
+                  context.read<FavoriteBloc>().add(
+                    ToggleFavorite(book, isFavorite),
                   );
                 },
               );
             },
+          ),
+          const SizedBox(height: 20),
+          // Informations supplémentaires
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Informations',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 10),
+                  Text('ID: ${book.id}'),
+                  if (book.imageUrl.isNotEmpty)
+                    const Text('Image disponible')
+                  else
+                    const Text('Aucune image disponible'),
+                ],
+              ),
+            ),
           ),
         ],
       ),

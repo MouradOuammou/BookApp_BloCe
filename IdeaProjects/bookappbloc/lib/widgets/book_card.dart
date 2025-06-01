@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/book_bloc.dart';
+import '../blocs/book_event.dart';
 import '../data/models/book.dart';
 import '../pages/book_detail_page.dart';
+import 'favorite_button.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
@@ -21,7 +23,7 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: InkWell(
         borderRadius: BorderRadius.circular(4),
         onTap: () {
@@ -36,7 +38,6 @@ class BookCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Partie image avec placeholder si imageUrl est vide
             Expanded(
               child: book.imageUrl.isNotEmpty
                   ? Image.network(
@@ -46,9 +47,8 @@ class BookCard extends StatelessWidget {
               )
                   : _buildPlaceholder(),
             ),
-            // Partie texte
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -56,12 +56,12 @@ class BookCard extends StatelessWidget {
                     book.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     book.author,
                     maxLines: 1,
@@ -71,16 +71,12 @@ class BookCard extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  // Bouton favori avec gestion externe
+                  const SizedBox(height: 8),
                   if (onFavoriteToggle != null)
-                    IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : null,
-                      ),
-                      onPressed: onFavoriteToggle,
-                      iconSize: 20,
+                    FavoriteButton(
+                      book: book,
+                      isFavorite: isFavorite,
+                      onStateChanged: (newState) => onFavoriteToggle?.call(),
                     ),
                 ],
               ),

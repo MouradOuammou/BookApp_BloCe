@@ -41,7 +41,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         emit(FavoriteUpdated(updatedFavorites, true));
       } catch (e) {
         emit(FavoriteError('Failed to add favorite: ${e.toString()}'));
-        emit(currentState); // Revert to previous state
+        emit(currentState);
       }
     }
   }
@@ -58,7 +58,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         emit(FavoriteUpdated(updatedFavorites, false));
       } catch (e) {
         emit(FavoriteError('Failed to remove favorite: ${e.toString()}'));
-        emit(currentState); // Revert to previous state
+        emit(currentState);
       }
     }
   }

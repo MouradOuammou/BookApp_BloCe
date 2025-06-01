@@ -1,3 +1,9 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/favorite_event.dart';
+import '../data/models/book.dart';
 class FavoriteButton extends StatelessWidget {
   final Book book;
   final bool isFavorite;

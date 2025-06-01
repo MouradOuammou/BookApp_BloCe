@@ -1,3 +1,10 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../blocs/book_bloc.dart';
+import '../data/models/book.dart';
+import '../pages/book_detail_page.dart';
+
 class BookCard extends StatelessWidget {
   final Book book;
   final bool isFavorite;

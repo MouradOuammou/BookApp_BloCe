@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 
 import '../data/repositories/book_repository.dart';
 import '../data/repositories/favorite_repository.dart';
-import '../data/services/api_service.dart';
-import '../data/services/db_service.dart';
 import 'book_bloc.dart';
 import 'favorite_bloc.dart';
 

@@ -5,3 +5,9 @@ class SearchBooks extends BookEvent {
 
   SearchBooks(this.query);
 }
+
+class LoadBookDetails extends BookEvent {
+  final String bookId;
+
+  LoadBookDetails(this.bookId);
+}

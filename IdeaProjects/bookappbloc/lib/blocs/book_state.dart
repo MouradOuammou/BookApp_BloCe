@@ -10,6 +10,12 @@ class BookLoaded extends BookState {
   BookLoaded(this.books);
 }
 
+class BookDetailLoaded extends BookState {
+  final Book book;
+
+  BookDetailLoaded(this.book);
+}
+
 class BookError extends BookState {
   final String message;
 
